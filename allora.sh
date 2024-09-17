@@ -2,6 +2,38 @@
 
 read -p "Type your SEED phrase: " SEED
 
+echo "Choose a TOKEN by entering the corresponding number: "
+
+select TOKEN in ETH BTC SOL BNB ARB
+do
+    case $TOKEN in
+        "ETH"|"BTC"|"SOL"|"BNB"|"ARB")
+            break
+            ;;
+        *)
+            echo "Invalid option. Please choose a valid number."
+            ;;
+    esac
+done
+
+echo "Selected token is: $TOKEN"
+
+echo "Choose a MODEL by entering the corresponding number: "
+
+select MODEL in Linear SVR KernelRidge BayesianRidge
+do
+    case $MODEL in
+        "Linear"|"SVR"|"KernelRidge"|"BayesianRidge")
+            break
+            ;;
+        *)
+            echo "Invalid option. Please choose a valid number."
+            ;;
+    esac
+done
+
+echo "Selected model is: $MODEL"
+
 sudo apt update && sudo apt upgrade -y
 sudo apt install -y ca-certificates zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev curl git wget make jq build-essential pkg-config lsb-release libssl-dev libreadline-dev libffi-dev gcc screen unzip lz4 python3 python3-pip
 
@@ -29,26 +61,209 @@ echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
 # Clone prediction node
-git clone https://github.com/allora-network/basic-coin-prediction-node
+sudo apt install -y git
+sudo git clone https://github.com/allora-network/basic-coin-prediction-node
 cd basic-coin-prediction-node
 
 # Create .env
 cat <<EOF > .env
-TOKEN=ETH
+TOKEN=$TOKEN
 TRAINING_DAYS=30
 TIMEFRAME=4h
-MODEL=SVR
+MODEL=$MODEL
 REGION=US
 DATA_PROVIDER=binance
 CG_API_KEY=
 EOF
 
-# Setup config.json
-cp config.example.json config.json
-sed -i "s/\"addressRestoreMnemonic\": \"\"/\"addressRestoreMnemonic\": \"$SEED\"/" config.json
+# Create config.json
+if [[ "$TOKEN" == "ETH" ]]; then
+    cat <<EOF > config.json
+{
+    "wallet": {
+        "addressKeyName": "test",
+        "addressRestoreMnemonic": "$SEED",
+        "alloraHomeDir": "",
+        "gas": "auto",
+        "gasAdjustment": 1.5,
+        "nodeRpc": "https://allora-rpc.testnet.allora.network",
+        "maxRetries": 1,
+        "delay": 1,
+        "submitTx": true
+    },
+    "worker": [
+        {
+            "topicId": 1,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        },
+        {
+            "topicId": 2,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        },
+        {
+            "topicId": 7,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        }
+    ]
+}
+EOF
 
-chmod +x init.config
-./init.config
+    echo "Config for ETH generated."
+elif [[ "$TOKEN" == "BTC" ]]; then
+    cat <<EOF > config.json
+{
+    "wallet": {
+        "addressKeyName": "test",
+        "addressRestoreMnemonic": "$SEED",
+        "alloraHomeDir": "",
+        "gas": "auto",
+        "gasAdjustment": 1.5,
+        "nodeRpc": "https://allora-rpc.testnet.allora.network",
+        "maxRetries": 1,
+        "delay": 1,
+        "submitTx": true
+    },
+    "worker": [
+        {
+            "topicId": 3,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        },
+        {
+            "topicId": 4,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        }
+    ]
+}
+EOF
+
+    echo "Config for BTC generated."
+    
+    elif [[ "$TOKEN" == "SOL" ]]; then
+    cat <<EOF > config.json
+{
+    "wallet": {
+        "addressKeyName": "test",
+        "addressRestoreMnemonic": "$SEED",
+        "alloraHomeDir": "",
+        "gas": "auto",
+        "gasAdjustment": 1.5,
+        "nodeRpc": "https://allora-rpc.testnet.allora.network",
+        "maxRetries": 1,
+        "delay": 1,
+        "submitTx": true
+    },
+    "worker": [
+        {
+            "topicId": 5,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        },
+        {
+            "topicId": 6,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        }
+    ]
+}
+EOF
+
+    echo "Config for SOL generated."
+    
+    elif [[ "$TOKEN" == "BNB" ]]; then
+    cat <<EOF > config.json
+{
+    "wallet": {
+        "addressKeyName": "test",
+        "addressRestoreMnemonic": "$SEED",
+        "alloraHomeDir": "",
+        "gas": "auto",
+        "gasAdjustment": 1.5,
+        "nodeRpc": "https://allora-rpc.testnet.allora.network",
+        "maxRetries": 1,
+        "delay": 1,
+        "submitTx": true
+    },
+    "worker": [
+        {
+            "topicId": 8,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        }
+    ]
+}
+EOF
+
+    echo "Config for BNB generated."
+    
+    elif [[ "$TOKEN" == "ARB" ]]; then
+    cat <<EOF > config.json
+{
+    "wallet": {
+        "addressKeyName": "test",
+        "addressRestoreMnemonic": "$SEED",
+        "alloraHomeDir": "",
+        "gas": "auto",
+        "gasAdjustment": 1.5,
+        "nodeRpc": "https://allora-rpc.testnet.allora.network",
+        "maxRetries": 1,
+        "delay": 1,
+        "submitTx": true
+    },
+    "worker": [
+        {
+            "topicId": 9,
+            "inferenceEntrypointName": "api-worker-reputer",
+            "loopSeconds": 5,
+            "parameters": {
+                "InferenceEndpoint": "http://inference:8000/inference/{Token}",
+                "Token": "$TOKEN"
+            }
+        }
+    ]
+}
+EOF
+
+    echo "Config for ARB generated."
+fi
+
+chmod +x init.config && ./init.config
 
 # Start
-docker-compose up -d --build && docker-compose logs -f
+sudo docker-compose up -d --build && sudo docker-compose logs -f
