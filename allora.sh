@@ -14,7 +14,7 @@ select TOKEN in ETH BTC SOL BNB ARB; do
     esac
 done
 
-echo "\e[93mSelected token is: $TOKEN\e[0m"
+echo -e "\e[93mSelected token is: $TOKEN\e[0m"
 
 echo "Choose a MODEL by entering the corresponding number: "
 select MODEL in Linear SVR KernelRidge BayesianRidge; do
@@ -28,7 +28,7 @@ select MODEL in Linear SVR KernelRidge BayesianRidge; do
     esac
 done
 
-echo "\e[93mSelected model is: $MODEL\e[0m"
+echo -e "\e[93mSelected model is: $MODEL\e[0m"
 
 # Update and install essential packages
 sudo apt update && sudo apt upgrade -y
@@ -128,7 +128,7 @@ EOF
     echo '    ]' >> config.json
     echo '}' >> config.json
 
-    echo "\e[93mConfig for $token generated\e[0m"
+    echo -e "\e[93mConfig for $token generated\e[0m"
 }
 
 generate_config $TOKEN
