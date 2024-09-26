@@ -98,7 +98,7 @@ generate_config() {
         "alloraHomeDir": "",
         "gas": "auto",
         "gasAdjustment": 1.5,
-        "nodeRpc": "https://allora-rpc.testnet.allora.network",
+        "nodeRpc": "https://allora-rpc.testnet-1.testnet.allora.network/",
         "maxRetries": 1,
         "delay": 1,
         "submitTx": true
