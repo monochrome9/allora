@@ -17,9 +17,9 @@ done
 echo -e "\e[93mSelected token is: $TOKEN\e[0m"
 
 echo "Choose a MODEL by entering the corresponding number: "
-select MODEL in Linear SVR KernelRidge BayesianRidge; do
+select MODEL in SVR KernelRidge BayesianRidge; do
     case $MODEL in
-        Linear|SVR|KernelRidge|BayesianRidge)
+        SVR|KernelRidge|BayesianRidge)
             break
             ;;
         *)
