@@ -134,4 +134,6 @@ chmod +x init.config && ./init.config
 
 # Start Docker Compose
 sudo docker-compose pull
-sudo docker-compose up -d --build && sudo docker-compose logs -f
+sudo docker-compose up -d --build
+echo -e "\e[32mThe worker has been installed\e[0m"
+sudo docker-compose logs -f
