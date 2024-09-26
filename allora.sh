@@ -102,8 +102,8 @@ generate_config() {
         "gas": "auto",
         "gasAdjustment": 1.5,
         "nodeRpc": "https://allora-rpc.testnet-1.testnet.allora.network/",
-        "maxRetries": 1,
-        "delay": 1,
+        "maxRetries": 5,
+        "delay": 5,
         "submitTx": true
     },
     "worker": [
