@@ -62,6 +62,9 @@ echo 'export PATH=$PATH:/usr/local/go/bin:$HOME/go/bin' >> $HOME/.bash_profile
 echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> $HOME/.bash_profile
 source $HOME/.bash_profile
 
+# Install Allora Wallet
+git clone https://github.com/allora-network/allora-chain.git
+
 # Clone prediction node
 git clone https://github.com/allora-network/basic-coin-prediction-node
 cd basic-coin-prediction-node
@@ -99,7 +102,7 @@ generate_config() {
         "gas": "auto",
         "gasAdjustment": 1.5,
         "nodeRpc": "https://allora-rpc.testnet-1.testnet.allora.network/",
-        "maxRetries": 1,
+        "maxRetries": 3,
         "delay": 1,
         "submitTx": true
     },
