@@ -133,4 +133,5 @@ generate_config $TOKEN
 chmod +x init.config && ./init.config
 
 # Start Docker Compose
+sudo docker-compose pull
 sudo docker-compose up -d --build && sudo docker-compose logs -f
